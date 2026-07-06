@@ -1,0 +1,81 @@
+name: 04 Release Needs
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Projektstruktur pruefen
+        run: bash scripts/02_validate_project.sh
+
+  count:
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Tickets zaehlen
+        run: bash scripts/03_count_tickets.sh
+
+      - name: Ticketzahlen hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: ticket-count
+          path: output/ticket-count.txt
+
+  report:
+    runs-on: ubuntu-latest
+    needs: count
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Ticketzahlen herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          name: ticket-count
+          path: output
+
+      - name: Report erstellen
+        run: bash scripts/04_create_report.sh
+
+      - name: Report hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: nordstern-report
+          path: output/report.md
+
+  package:
+    runs-on: ubuntu-latest
+    needs: report
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Report herunterladen
+        uses: actions/download-artifact@v4
+        with:
+          name: nordstern-report
+          path: output
+
+      - name: Release Paket erstellen
+        run: bash scripts/05_package_release.sh
+
+      - name: Release Paket hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: nordstern-release
+          path: output/nordstern-release.tar.gz

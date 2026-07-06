@@ -1,0 +1,18 @@
+name: 01 Info
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Projektinformationen anzeigen
+        run: bash scripts/01_show_info.sh
