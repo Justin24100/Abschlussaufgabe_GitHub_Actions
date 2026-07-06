@@ -50,3 +50,25 @@ NORDSTERN_API_TOKEN="test-token-123" bash scripts/07_secret_check.sh
 ## Aufgabe
 
 Erstelle im Ordner `.github/workflows/` mehrere YAML Dateien. Die genaue Aufgabenstellung steht im Word Dokument.
+
+## Abgabe Screenshots
+
+### Actions Übersicht
+
+![Actions Übersicht](bilder/01_Actions_Uebersicht.png)
+
+### Release Pipeline mit mehreren Jobs
+
+![Release Pipeline Jobs](bilder/02_Release_Pipeline_Jobs.png)
+
+### Release Artefakte
+
+![Release Artefakte](bilder/03_Release_Artefakte.png)
+
+### Repository Variables
+
+![Repository Variables](bilder/04_Repository_Variables.png)
+
+### Repository Secret
+
+![Repository Secret](bilder/05_Repository_Secret.png)
